@@ -8,8 +8,8 @@ use App\Models\doc_documento;
 class pro_proceso extends Model
 {
     use HasFactory;
-    public function publicaciones()
-    {
-        return $this->hasMany(doc_documento::class);
-    }
+ //   public function publicaciones()
+ //   {
+  //      return $this->hasMany(doc_documento::class);
+ //   }
 }

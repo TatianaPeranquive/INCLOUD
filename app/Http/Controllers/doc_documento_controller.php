@@ -8,6 +8,7 @@ use App\Models\tip_tipo_doc;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+
 class doc_documento_controller extends Controller
 {
     /**
@@ -76,7 +77,7 @@ class doc_documento_controller extends Controller
      */
     public function show(doc_documento $doc_documento)
     {
-        return view('show');
+        //
     }
 
     /**
@@ -84,7 +85,7 @@ class doc_documento_controller extends Controller
      */
     public function edit(doc_documento $doc_documento)
     {
-        return view('edit');
+       return view('edit', ['doc_documento' => $doc_documento]); //dd($doc_documento);// 
     }
 
     /**
@@ -92,7 +93,8 @@ class doc_documento_controller extends Controller
      */
     public function update(Request $request, doc_documento $doc_documento)
     {
-        //
+        return view('edit', ['doc_documento' => $doc_documento]);
+
     }
 
     /**
@@ -100,6 +102,6 @@ class doc_documento_controller extends Controller
      */
     public function destroy(doc_documento $doc_documento)
     {
-        //
+        dd($doc_documento);
     }
 }

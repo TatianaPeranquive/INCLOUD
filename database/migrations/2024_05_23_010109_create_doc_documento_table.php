@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('doc_documento', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->bigIncrements('doc_id');
+            $table->string('doc_nombre', 60);
+            $table->integer('doc_codigo');
+            $table->string('doc_contenido', 4000);
+
+            $table->foreignId('doc_id_proceso')->references("pro_id")->on("pro_proceso");
+            $table->foreignId('doc_id_tipo')->references("tip_id")->on("tip_tipo_doc");
         });
     }
 

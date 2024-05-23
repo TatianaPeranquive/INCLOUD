@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pro_proceso', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->bigIncrements('pro_id');
+            $table->string('pro_prefijo', 20);
+            $table->string('pro_nombre', 60);
         });
     }
 

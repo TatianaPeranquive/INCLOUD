@@ -14,8 +14,8 @@
     </div>
 
     <form action="{{route('CRUD_documentos.store')}}" method="POST">
+        @csrf
         <div class="row">
-
             <div class="container mt-5">
                 <div class="row">
                     <div class="col-md-6">

@@ -28,7 +28,7 @@ class doc_documento_controller extends Controller
      */
     public function store(Request $request)
     {
-        //
+       dd($request->all());// Imprime los datos ingresados en el formulario de create
     }
 
     /**

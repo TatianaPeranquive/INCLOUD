@@ -1,23 +1,17 @@
 @extends('layouts.base') <! Herencia -->
 
 @section('contenido_vista')
-<?php
-    function generarCodigoConsecutivo()
-    {
-        $ultimoCodigo = doc_documento::latest()->value('doc_codigo');
 
-        if (isset($ultimoCodigo) && !empty($ultimoCodigo)){
-            $nuevoCodigo = $ultimoCodigo + 1;
-        }else {
-            $nuevoCodigo = 0;
-        }
-
-        while (doc_documento::where('doc_codigo', $nuevoCodigo)->exists()) {
-            $nuevoCodigo++;
-        }
-        return $nuevoCodigo;
-    }
-?>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <strong>Error: solucionar antes de continuar </strong> <br><br>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <div class="row">
     <div class="col-12 text-center">
@@ -52,7 +46,8 @@
                                 <input type="hidden" name="doc_id_proceso" id="doc_id_proceso" class="form-control" placeholder="doc_id_proceso">
                                 <select id="ids_procesos" class="form-control">
                                     @foreach ($pro_procesos as $proceso)
-                                        <option value="{{ $proceso->pro_id }}">{{ $proceso->pro_nombre }}</option>
+
+                                        <option value="{{ $proceso->pro_prefijo }}">{{ $proceso->pro_nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -63,12 +58,13 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Tipo documento:</strong>
+                                <input type="hidden" name="doc_id_tipo" id="doc_id_tipo" class="form-control" placeholder="doc_id_tipo" >
                                 <select id="ids_tip_tipo_docs" class="form-control">
                                     @foreach ($tip_tipo_docs as $tip_tipo_doc)
                                         <option value="{{ $tip_tipo_doc->tip_id }}">{{ $tip_tipo_doc->tip_nombre }}</option>
                                     @endforeach
                                 </select>
-                                <input type="hidden" name="doc_id_tipo" class="form-control" placeholder="doc_id_tipo" >
+
                             </div>
                         </div>
                     </div>
@@ -78,8 +74,9 @@
                             <div class="form-group">
                                 <strong>Código:</strong>
                                 <input type="hidden" name="doc_codigo" value="1">
-                                <div class="form-control" style="height:40px; overflow-y: auto;">
-                                {{ $tip_tipo_doc->tip_prefijo . '-' .$proceso->pro_prefijo. '-' . $nuevo_codigo}}
+
+                                <div id="codigoDiv" class="form-control" style="height:40px; overflow-y: auto;">
+                                {{  '##'.$tip_tipo_doc->tip_prefijo . '-' .$proceso->pro_prefijo. '-' . $nuevo_codigo}}
                                 </div>
                             </div>
                         </div>
@@ -103,18 +100,30 @@
 </div>
 
 <script>
-    function AsignarOpcionElegida(selectId, hiddenId) {
+    function AsignarOpcionElegida(selectId, hiddenId, divId) {
         var selectElement = document.getElementById(selectId);
         var hiddenElement = document.getElementById(hiddenId);
+        var divElement = document.getElementById(divId);
 
         selectElement.addEventListener('change', function() {
             hiddenElement.value = this.value;
+            actualizar_codigo();
         });
 
         hiddenElement.value = selectElement.value;
+
+
+        actualizar_codigo();
+
+        function actualizar_codigo() {
+            var valorSeleccionado = selectElement.value;
+            divElement.textContent = valorSeleccionado + '-{{$tip_tipo_doc->tip_prefijo}}-' + {{$nuevo_codigo}};
+
+        }
     }
 
-    AsignarOpcionElegida('ids_procesos', 'doc_id_proceso');
-    AsignarOpcionElegida('ids_tip_tipo_docs', 'doc_id_tipo');
+    $var1 = AsignarOpcionElegida('ids_procesos', 'doc_id_proceso', 'codigoDiv');
+    $var1 = AsignarOpcionElegida('ids_tip_tipo_docs', 'doc_id_tipo', 'codigoDiv');
 </script>
+
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\doc_documento;
 use App\Models\pro_proceso;
 use App\Models\tip_tipo_doc;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class doc_documento_controller extends Controller
@@ -55,11 +56,15 @@ class doc_documento_controller extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request):RedirectResponse
     {
+        $request->validate(([
+            'doc_nombre' => 'required',
+            'doc_codigo' => 'required'
+        ]));
        //dd($request->all());// Imprime los datos ingresados en el formulario de create
        doc_documento::create($request->all());// Inserta los datos del request en la bd
-       return redirect()->route('CRUD_documento.index');
+       return redirect()->route('CRUD_documentos.index');
     }
 
     /**

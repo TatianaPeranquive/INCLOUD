@@ -30,13 +30,14 @@
                 <th>DOC_ID_PROCESO</th>
                 <th>ACCIÓN</th>
             </tr>
+            @foreach ($lista_documentos as $documento)
             <tr >
-                <td class="fw-bold"> 001 </td>
-                <td> Instructivo de desarrollo</td>
-                <td> INS-ING-1 </td>
-                <td> texto grande con el contenido del documento </td>
-                <td> 1 </td>
-                <td> 1 </td>
+                <td class="fw-bold"> {{$documento->doc_id}} </td>
+                <td> {{$documento->doc_nombre}} </td>
+                <td> {{$documento->doc_codigo}}  </td>
+                <td> {{$documento->doc_contenido}}  </td>
+                <td> {{$documento->doc_id_proceso}}  </td>
+                <td> {{$documento->doc_id_tipo}}  </td>
                 <td>
                     <a href="" class="btn btn-warning">Editar</a>
 
@@ -45,6 +46,8 @@
                     </form>
                 </td>
             </tr>
+            @endforeach
+
         </table>
     </div>
 </div>

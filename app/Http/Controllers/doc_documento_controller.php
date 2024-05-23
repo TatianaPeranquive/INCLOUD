@@ -15,7 +15,10 @@ class doc_documento_controller extends Controller
      */
     public function index()
     {
-        return view('index');
+        $lista_documentos = doc_documento::latest()->get();
+        return view('index',[
+            'lista_documentos'=> $lista_documentos
+            ]);
     }
 
     /**

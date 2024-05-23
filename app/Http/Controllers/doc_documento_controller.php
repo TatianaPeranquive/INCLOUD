@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\doc_documento;
 use App\Models\pro_proceso;
-use App\Models\tip_tipo_docs;
+use App\Models\tip_tipo_doc;
 use Illuminate\Http\Request;
 
 class doc_documento_controller extends Controller
@@ -18,12 +18,38 @@ class doc_documento_controller extends Controller
     }
 
     /**
+     * Crear consecutivo único
+    */
+    function generarCodigoConsecutivo()
+    {
+        $ultimo_codigo = doc_documento::latest()->value('doc_codigo');
+
+        if (isset($ultimo_codigo) && !empty($ultimo_codigo)){
+            $nuevo_codigo = $ultimo_codigo + 1;
+        }else {
+            $nuevo_codigo = 0;
+        }
+
+        while (doc_documento::where('doc_codigo', $nuevo_codigo)->exists()) {
+            $nuevo_codigo++;
+        }
+        return $nuevo_codigo;
+    }
+
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         $pro_procesos = pro_proceso::latest()->get();
-        return view('create', ['pro_procesos'=> $pro_procesos]);
+        $tip_tipo_docs = tip_tipo_doc::latest()->get();
+        return view('create',[
+        'pro_procesos'=> $pro_procesos,
+        'tip_tipo_docs'=> $tip_tipo_docs,
+        'nuevo_codigo'=> $this->generarCodigoConsecutivo()
+        ]);
+
     }
 
     /**

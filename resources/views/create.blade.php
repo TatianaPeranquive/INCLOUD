@@ -1,7 +1,23 @@
 @extends('layouts.base') <! Herencia -->
 
 @section('contenido_vista')
+<?php
+    function generarCodigoConsecutivo()
+    {
+        $ultimoCodigo = doc_documento::latest()->value('doc_codigo');
 
+        if (isset($ultimoCodigo) && !empty($ultimoCodigo)){
+            $nuevoCodigo = $ultimoCodigo + 1;
+        }else {
+            $nuevoCodigo = 0;
+        }
+
+        while (doc_documento::where('doc_codigo', $nuevoCodigo)->exists()) {
+            $nuevoCodigo++;
+        }
+        return $nuevoCodigo;
+    }
+?>
 
 <div class="row">
     <div class="col-12 text-center">
@@ -28,44 +44,46 @@
                     </div>
 
 
-                    <div class="col-md-1">
+
+                    <div class="col-md-2">
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
-                                <strong>Id_proceso:</strong>
+                                <strong>Proceso:</strong>
                                 <input type="hidden" name="doc_id_proceso" id="doc_id_proceso" class="form-control" placeholder="doc_id_proceso">
                                 <select id="ids_procesos" class="form-control">
                                     @foreach ($pro_procesos as $proceso)
-                                        <option value="{{ $proceso->pro_id }}">{{ $proceso->pro_id }}</option>
+                                        <option value="{{ $proceso->pro_id }}">{{ $proceso->pro_nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
-                                <strong>Id_tipo:</strong>
-                                <input type="text" name="doc_id_tipo" class="form-control" placeholder="doc_id_tipo" >
+                                <strong>Tipo documento:</strong>
+                                <select id="ids_tip_tipo_docs" class="form-control">
+                                    @foreach ($tip_tipo_docs as $tip_tipo_doc)
+                                        <option value="{{ $tip_tipo_doc->tip_id }}">{{ $tip_tipo_doc->tip_nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <input type="hidden" name="doc_id_tipo" class="form-control" placeholder="doc_id_tipo" >
                             </div>
                         </div>
                     </div>
 
-
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Código:</strong>
-                                <!-- Input oculto con valor predeterminado -->
                                 <input type="hidden" name="doc_codigo" value="1">
-                                <!-- Div para mostrar el valor predeterminado -->
                                 <div class="form-control" style="height:40px; overflow-y: auto;">
-                                    Este es el código generado
+                                {{ $tip_tipo_doc->tip_prefijo . '-' .$proceso->pro_prefijo. '-' . $nuevo_codigo}}
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
 
@@ -85,12 +103,18 @@
 </div>
 
 <script>
-    document.getElementById('ids_procesos').addEventListener('change', function() {
-        var selectedValue = this.value;
-        document.getElementById('doc_id_proceso').value = selectedValue;
-    });
+    function AsignarOpcionElegida(selectId, hiddenId) {
+        var selectElement = document.getElementById(selectId);
+        var hiddenElement = document.getElementById(hiddenId);
 
-    var initialSelectedValue = document.getElementById('ids_procesos').value;
-    document.getElementById('doc_id_proceso').value = initialSelectedValue;
+        selectElement.addEventListener('change', function() {
+            hiddenElement.value = this.value;
+        });
+
+        hiddenElement.value = selectElement.value;
+    }
+
+    AsignarOpcionElegida('ids_procesos', 'doc_id_proceso');
+    AsignarOpcionElegida('ids_tip_tipo_docs', 'doc_id_tipo');
 </script>
 @endsection

@@ -12,7 +12,7 @@ class doc_documento_controller extends Controller
      */
     public function index()
     {
-        //
+        return view('index');
     }
 
     /**

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('doc_codigo');
             $table->string('doc_contenido', 4000);
 
-            $table->foreignId('doc_id_proceso')->references("pro_id")->on("pro_proceso");
-            $table->foreignId('doc_id_tipo')->references("tip_id")->on("tip_tipo_doc");
+            $table->foreignId('doc_id_proceso')->references("pro_id")->on("pro_procesos");
+            $table->foreignId('doc_id_tipo')->references("tip_id")->on("tip_tipo_docs");
         });
     }
 

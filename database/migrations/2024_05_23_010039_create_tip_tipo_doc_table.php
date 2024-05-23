@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tip_tipo_doc', function (Blueprint $table) {
+        Schema::create('tip_tipo_docs', function (Blueprint $table) {
             $table->bigIncrements('tip_id');
             $table->string('tip_prefijo', 20);
             $table->string('tip_nombre', 60);
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tip_tipo_doc');
+        Schema::dropIfExists('tip_tipo_docs');
     }
 };

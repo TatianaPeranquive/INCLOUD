@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class doc_documento extends Model
 {
-    use HasFactory;
+   use HasFactory;
+   protected  $fillable = ['doc_nombre', 'doc_codigo','doc_contenido' , 'doc_id_proceso', 'doc_id_tipo' ];
 }

@@ -27,6 +27,21 @@
                         </div>
                     </div>
 
+
+                    <div class="col-md-1">
+                        <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
+                            <div class="form-group">
+                                <strong>Id_proceso:</strong>
+                                <input type="hidden" name="doc_id_proceso" id="doc_id_proceso" class="form-control" placeholder="doc_id_proceso">
+                                <select id="ids_procesos" class="form-control">
+                                    @foreach ($pro_procesos as $proceso)
+                                        <option value="{{ $proceso->pro_id }}">{{ $proceso->pro_id }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-1">
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
@@ -36,19 +51,14 @@
                         </div>
                     </div>
 
-                    <div class="col-md-1">
-                        <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
-                            <div class="form-group">
-                                <strong>Id_proceso:</strong>
-                    <input type="text" name="doc_id_proceso" class="form-control" placeholder="doc_id_proceso" >
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="col-md-4">
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Código:</strong>
+                                <!-- Input oculto con valor predeterminado -->
+                                <input type="hidden" name="doc_codigo" value="1">
+                                <!-- Div para mostrar el valor predeterminado -->
                                 <div class="form-control" style="height:40px; overflow-y: auto;">
                                     Este es el código generado
                                 </div>
@@ -73,4 +83,14 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('ids_procesos').addEventListener('change', function() {
+        var selectedValue = this.value;
+        document.getElementById('doc_id_proceso').value = selectedValue;
+    });
+
+    var initialSelectedValue = document.getElementById('ids_procesos').value;
+    document.getElementById('doc_id_proceso').value = initialSelectedValue;
+</script>
 @endsection

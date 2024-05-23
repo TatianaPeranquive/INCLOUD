@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\doc_documento;
+use App\Models\pro_proceso;
+use App\Models\tip_tipo_docs;
 use Illuminate\Http\Request;
 
 class doc_documento_controller extends Controller
@@ -20,7 +22,8 @@ class doc_documento_controller extends Controller
      */
     public function create()
     {
-        return view('create');
+        $pro_procesos = pro_proceso::latest()->get();
+        return view('create', ['pro_procesos'=> $pro_procesos]);
     }
 
     /**

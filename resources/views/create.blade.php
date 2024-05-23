@@ -47,7 +47,7 @@
                                 <select id="ids_procesos" class="form-control">
                                     @foreach ($pro_procesos as $proceso)
 
-                                        <option value="{{ $proceso->pro_prefijo }}">{{ $proceso->pro_nombre }}</option>
+                                    <option value="{{ $proceso->pro_id }}" data-pro-prefijo="{{ $proceso->pro_prefijo }}">{{ $proceso->pro_nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -61,7 +61,7 @@
                                 <input type="hidden" name="doc_id_tipo" id="doc_id_tipo" class="form-control" placeholder="doc_id_tipo" >
                                 <select id="ids_tip_tipo_docs" class="form-control">
                                     @foreach ($tip_tipo_docs as $tip_tipo_doc)
-                                        <option value="{{ $tip_tipo_doc->tip_id }}">{{ $tip_tipo_doc->tip_nombre }}</option>
+                                        <option value="{{ $tip_tipo_doc->tip_id }}" data-pro-prefijo="{{ $tip_tipo_doc->tip_prefijo }}">{{ $tip_tipo_doc->tip_nombre }}</option>
                                     @endforeach
                                 </select>
 
@@ -116,8 +116,10 @@
         actualizar_codigo();
 
         function actualizar_codigo() {
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var proPrefijo = selectedOption.getAttribute('data-pro-prefijo');
             var valorSeleccionado = selectElement.value;
-            divElement.textContent = valorSeleccionado + '-{{$tip_tipo_doc->tip_prefijo}}-' + {{$nuevo_codigo}};
+            divElement.textContent = proPrefijo + '-{{$tip_tipo_doc->tip_prefijo}}-' + {{$nuevo_codigo}};
 
         }
     }

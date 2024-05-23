@@ -64,7 +64,8 @@ class doc_documento_controller extends Controller
         ]));
        //dd($request->all());// Imprime los datos ingresados en el formulario de create
        doc_documento::create($request->all());// Inserta los datos del request en la bd
-       return redirect()->route('CRUD_documentos.index');
+       return redirect()->route('CRUD_documentos.index')->with('success', 'Docuemnto creado con éxito. ')
+        ;
     }
 
     /**

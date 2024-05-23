@@ -20,7 +20,7 @@ class doc_documento_controller extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -36,7 +36,7 @@ class doc_documento_controller extends Controller
      */
     public function show(doc_documento $doc_documento)
     {
-        //
+        return view('show');
     }
 
     /**
@@ -44,7 +44,7 @@ class doc_documento_controller extends Controller
      */
     public function edit(doc_documento $doc_documento)
     {
-        //
+        return view('edit');
     }
 
     /**

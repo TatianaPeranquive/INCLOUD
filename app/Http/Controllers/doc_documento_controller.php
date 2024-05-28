@@ -97,14 +97,26 @@ class doc_documento_controller extends Controller
         return view('edit', compact('doc_documento1'));
     }
 
-    public function update(Request $request, doc_documento $doc_documento)
+    /**
+     *  Store a editing the specified resource.
+    *
+    * @param  int  $id
+    * @return Response
+    */
+    public function update(Request $request)
     {
-        dd($doc_documento->findOrFail($doc_documento->doc_id));
-        dd($request->all());
-        $doc_documento->update($request->all());
-       // dd($doc_documento);
-       return redirect()->route('CRUD_documentos.index')->with('success', 'Documento actualizado exitosamente');
+        $data = $request->all();
+        // $doc_documento->update($request->all());
+        $doc_documento = doc_documento::find($data["doc_id"]);
+        $doc_documento->doc_nombre     = $data["doc_nombre"];
+        $doc_documento->doc_id_proceso = $data["doc_id_proceso"];
+        $doc_documento->doc_id_tipo    = $data["doc_id_tipo"];
+        $doc_documento->doc_codigo     = $data["doc_codigo"];
+        $doc_documento->doc_contenido  = $data["doc_contenido"];
+        $doc_documento->save();
+        return ['editado'=>$doc_documento];
     }
+
 
 
     /**

@@ -22,11 +22,10 @@
             </ul>
         </div>
     @endif
-            
+
     <form action="{{ route('CRUD_documentos.update', $doc_documento1->doc_id) }}" method="POST">
         @csrf
         @method('PUT')
-
         <div class="row">
             <div class="container mt-5">
                 <div class="row">
@@ -34,6 +33,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Nombre del documento:</strong>
+                                <input type="hidden" name="doc_id" class="form-control" value="{{ $doc_documento1->doc_id }}">
                                 <input type="text" name="doc_nombre" class="form-control" value="{{ $doc_documento1->doc_nombre }}">
                             </div>
                         </div>

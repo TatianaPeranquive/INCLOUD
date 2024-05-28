@@ -7,8 +7,7 @@ use App\Models\pro_proceso;
 use App\Models\tip_tipo_doc;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\DB;
 class doc_documento_controller extends Controller
 {
     /**
@@ -62,13 +61,14 @@ class doc_documento_controller extends Controller
      */
     public function store(Request $request):RedirectResponse
     {
+        //dd($request->all());// Imprime los datos ingresados en el formulario de create
         $request->validate(([
             'doc_nombre' => 'required',
             'doc_codigo' => 'required'
         ]));
-       //dd($request->all());// Imprime los datos ingresados en el formulario de create
+
        doc_documento::create($request->all());// Inserta los datos del request en la bd
-       return redirect()->route('CRUD_documentos.index')->with('success', 'Docuemnto creado con éxito. ')
+       return redirect()->route('CRUD_documentos.index')->with('success', 'Documento creado con éxito. ')
         ;
     }
 
@@ -80,22 +80,32 @@ class doc_documento_controller extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(doc_documento $doc_documento)
-    {
-       return view('edit', ['doc_documento' => $doc_documento]); //dd($doc_documento);// 
-    }
 
     /**
-     * Update the specified resource in storage.
+      * Show the form for editing the specified resource.
+      *
+      * @param  int  $id
+      * @return Response
      */
+    public function edit($doc_documento_id)
+    {
+        $doc_documento_find = DB::select('SELECT * FROM doc_documentos WHERE doc_id = ?', [$doc_documento_id]);
+        if (empty($doc_documento_find)) {
+            return redirect()->route('CRUD_documentos.index')->with('error', 'Documento no encontrado.');
+        }
+        $doc_documento1 = $doc_documento_find[0];
+        return view('edit', compact('doc_documento1'));
+    }
+
     public function update(Request $request, doc_documento $doc_documento)
     {
-        return view('edit', ['doc_documento' => $doc_documento]);
-
+        dd($doc_documento->findOrFail($doc_documento->doc_id));
+        dd($request->all());
+        $doc_documento->update($request->all());
+       // dd($doc_documento);
+       return redirect()->route('CRUD_documentos.index')->with('success', 'Documento actualizado exitosamente');
     }
+
 
     /**
      * Remove the specified resource from storage.

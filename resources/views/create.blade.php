@@ -32,7 +32,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Nombre del documento:</strong>
-                                <input type="text" name="doc_nombre" class="form-control" id="">
+                                <input type="text" name="doc_nombre" class="form-control" id="doc_nombre" placeholder="doc_nombre">
                             </div>
                         </div>
                     </div>

@@ -8,8 +8,9 @@ use App\Models\doc_documento;
 class pro_proceso extends Model
 {
     use HasFactory;
- //   public function publicaciones()
- //   {
-  //      return $this->hasMany(doc_documento::class);
- //   }
+    protected $primaryKey = 'proc_id';
+   public function publicaciones()
+   {
+        return $this->hasMany(doc_documento::class, 'doc_id_proceso');
+   }
 }

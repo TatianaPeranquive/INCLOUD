@@ -39,9 +39,12 @@
                 <td> {{$documento->doc_id_proceso}}  </td>
                 <td> {{$documento->doc_id_tipo}}  </td>
                 <td>
-                    <a href="" class="btn btn-warning">Editar</a>
+                    <a href="{{route('CRUD_documentos.edit', $documento->doc_id, $documento)}}" class="btn btn-warning">Editar</a>
 
-                    <form action="" method="post" class="d-inline">
+                    <form action="{{ route('CRUD_documentos.destroy', $documento->doc_id) }}" method="POST" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="doc_codigo" value="{{ $documento->doc_id }}">
+                        @method('DELETE')
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
                 </td>

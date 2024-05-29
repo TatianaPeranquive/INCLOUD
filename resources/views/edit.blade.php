@@ -23,7 +23,7 @@
         </div>
     @endif
 
-    <form action="{{ route('CRUD_documentos.update', $doc_documento1->doc_id) }}" method="POST">
+    <form action="{{ route('CRUD_documentos.update',$doc_documento1->doc_id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="row">
@@ -62,8 +62,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                             <div class="form-group">
                                 <strong>Código:</strong>
-                                <input type="hidden" name="doc_codigo" value="{{ $doc_documento1
-                                    ->doc_codigo }}">
+                                <input type="hidden" name="doc_codigo" value="{{ $doc_documento1->doc_codigo }}">
                                 <div id="codigoDiv" class="form-control" style="height:40px; overflow-y: auto;">
                                     {{ $doc_documento1->doc_codigo }}
                                 </div>
@@ -79,6 +78,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-2">
                     <button type="submit" class="btn btn-primary">Actualizar</button>
+
                 </div>
             </div>
         </div>

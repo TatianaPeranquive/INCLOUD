@@ -91,7 +91,8 @@ class doc_documento_controller extends Controller
     {
         $doc_documento_find = DB::select('SELECT * FROM doc_documentos WHERE doc_id = ?', [$doc_documento_id]);
         if (empty($doc_documento_find)) {
-            return redirect()->route('CRUD_documentos.index')->with('error', 'Documento no encontrado.');
+            //return redirect()->route('CRUD_documentos.index')->with('error', 'Documento no encontrado.');
+            return view('edit', compact('doc_documento1'));
         }
         $doc_documento1 = $doc_documento_find[0];
         return view('edit', compact('doc_documento1'));
@@ -100,30 +101,35 @@ class doc_documento_controller extends Controller
     /**
      *  Store a editing the specified resource.
     *
-    * @param  int  $id
+    * @param  int  $request
     * @return Response
     */
     public function update(Request $request)
     {
         $data = $request->all();
         // $doc_documento->update($request->all());
-        $doc_documento = doc_documento::find($data["doc_id"]);
-        $doc_documento->doc_nombre     = $data["doc_nombre"];
-        $doc_documento->doc_id_proceso = $data["doc_id_proceso"];
-        $doc_documento->doc_id_tipo    = $data["doc_id_tipo"];
-        $doc_documento->doc_codigo     = $data["doc_codigo"];
-        $doc_documento->doc_contenido  = $data["doc_contenido"];
-        $doc_documento->save();
-        return ['editado'=>$doc_documento];
+        $doc_documento1 = doc_documento::find($data["doc_id"]);
+        $doc_documento1->doc_nombre     = $data["doc_nombre"];
+        $doc_documento1->doc_id_proceso = $data["doc_id_proceso"];
+        $doc_documento1->doc_id_tipo    = $data["doc_id_tipo"];
+        $doc_documento1->doc_codigo     = $data["doc_codigo"];
+        $doc_documento1->doc_contenido  = $data["doc_contenido"];
+        $doc_documento1->save();
+        return redirect()->route('CRUD_documentos.index')->with('success', 'Documento actualizado con éxito. ');
     }
-
-
 
     /**
      * Remove the specified resource from storage.
+    * @param  int  $doc_documento_id
+    * @return Response
      */
-    public function destroy(doc_documento $doc_documento)
+    public function destroy($doc_documento_id) :RedirectResponse
     {
-        dd($doc_documento);
+        $doc_documento = doc_documento::find($doc_documento_id);
+        if ($doc_documento->exists) {
+            $doc_documento->delete();
+            return redirect()->route('CRUD_documentos.index')->with('success', 'Documento eliminado exitosamente.');
+        }
+        return redirect()->route('CRUD_documentos.index')->with('error', 'Documento no encontrado.');
     }
 }
